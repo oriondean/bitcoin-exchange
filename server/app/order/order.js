@@ -1,31 +1,54 @@
 var OrderAction = require("./orderAction");
 
-function Order(orderParams) {
-    if(orderParams.action !== OrderAction.BID && orderParams.action !== OrderAction.ASK) {
+/**
+ * Immutable order object
+ *
+ * @param action order's action (bid or ask)
+ * @param price order price
+ * @param quantity order quantity
+ * @constructor
+ * */
+function Order(action, price, quantity) {
+    if(action !== OrderAction.BID && action !== OrderAction.ASK) {
         throw new Error("Invalid order action");
     }
 
-    if(orderParams.price == null || isNaN(orderParams.price)) {
+    if(price == null || isNaN(price)) {
         throw new Error("Invalid price");
     }
 
-    if(orderParams.quantity == null || isNaN(orderParams.quantity)) {
+    if(quantity == null || isNaN(quantity) || quantity <= 0) {
         throw new Error("Invalid quantity");
     }
 
-    this.action = orderParams.action;
-    this.price = orderParams.price;
-    this.quantity = orderParams.quantity;
+    this.action = action;
+    this.price = price;
+    this.quantity = quantity;
+
 }
 
 Order.prototype.isBid = function() { return this.action === OrderAction.BID };
 
 Order.prototype.isAsk = function() { return this.action === OrderAction.ASK };
 
+/**
+ * Returns true if order can be matched with given counterpart
+ * @param order
+ * @returns {boolean} true if can be matched, otherwise false
+ */
 Order.prototype.canMatch = function(order) {
     if(this.isBid() === order.isBid()) return false; // can't match two bid/ask orders
 
     return order.isBid() ? order.price <= this.price : order.price >= this.price;
+};
+
+/**
+ * Returns new order object with reduced quantity
+ * @param amount amount to reduce existing quantity by
+ * @returns {Order}
+ */
+Order.prototype.reduceQuantity = function(amount) {
+    return new Order(this.action, this.price, this.quantity - amount);
 };
 
 module.exports = Order;
