@@ -1,6 +1,6 @@
 "use strict"; // required for class support in node (https://nodejs.org/en/docs/es6/)
 
-let OrderAction = require("./OrderAction");
+const OrderAction = require("./OrderAction");
 
 class Order {
 
