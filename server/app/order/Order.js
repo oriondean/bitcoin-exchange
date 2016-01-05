@@ -1,4 +1,4 @@
-var OrderAction = require("./OrderAction");
+var OrderAction = require("./orderAction");
 
 function Order(orderParams) {
     if(orderParams.action !== OrderAction.BID && orderParams.action !== OrderAction.ASK) {
@@ -21,5 +21,11 @@ function Order(orderParams) {
 Order.prototype.isBid = function() { return this.action === OrderAction.BID };
 
 Order.prototype.isAsk = function() { return this.action === OrderAction.ASK };
+
+Order.prototype.canMatch = function(order) {
+    if(this.isBid() === order.isBid()) return false; // can't match two bid/ask orders
+
+    return order.isBid() ? order.price <= this.price : order.price >= this.price;
+};
 
 module.exports = Order;
