@@ -25,6 +25,7 @@ function Order(action, price, quantity) {
     this.price = price;
     this.quantity = quantity;
 
+    Object.freeze(this); // immutable
 }
 
 Order.prototype.isBid = function() { return this.action === OrderAction.BID };
