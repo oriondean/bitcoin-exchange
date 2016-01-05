@@ -15,7 +15,9 @@
     "bitcoin-exchange"
   ],
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.4.1"
+  },
   "private": true,
   "license": "MIT"
 }
