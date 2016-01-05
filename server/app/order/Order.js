@@ -1,34 +1,25 @@
-"use strict"; // required for class support in node (https://nodejs.org/en/docs/es6/)
+var OrderAction = require("./OrderAction");
 
-const OrderAction = require("./OrderAction");
-
-class Order {
-
-    constructor(orderParams) {
-        if(orderParams.action !== OrderAction.BID && orderParams.action !== OrderAction.ASK) {
-            throw new Error("Invalid order action");
-        }
-
-        if(isNaN(orderParams.price)) {
-            throw new Error("invalid price");
-        }
-
-        if(isNaN(orderParams.quantity)) {
-            throw new Error("invalid quantity");
-        }
-
-        this.action = orderParams.action;
-        this.price = orderParams.price;
-        this.quantity = orderParams.quantity;
+function Order(orderParams) {
+    if(orderParams.action !== OrderAction.BID && orderParams.action !== OrderAction.ASK) {
+        throw new Error("Invalid order action");
     }
 
-    get isBid() {
-        return this.action === OrderAction.BID;
+    if(orderParams.price == null || isNaN(orderParams.price)) {
+        throw new Error("Invalid price");
     }
 
-    get isAsk() {
-        return this.action === OrderAction.ASK;
+    if(orderParams.quantity == null || isNaN(orderParams.quantity)) {
+        throw new Error("Invalid quantity");
     }
+
+    this.action = orderParams.action;
+    this.price = orderParams.price;
+    this.quantity = orderParams.quantity;
 }
+
+Order.prototype.isBid = function() { return this.action === OrderAction.BID };
+
+Order.prototype.isAsk = function() { return this.action === OrderAction.ASK };
 
 module.exports = Order;
