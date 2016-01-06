@@ -105,4 +105,23 @@ describe("Matcher", function() {
 
         expect(matcher.bidOrders[0].price).toBe(25);
     });
+
+    it("matches orders at existing orders price", function() {
+        matcher.bidOrders = [new Order("sell", 10, 15)];
+
+        matcher.onNewOrder(new Order("buy", 20, 15));
+
+        expect(matcher.trades[0].price).toBe(10);
+        expect(matcher.trades[0].quantity).toBe(15);
+    });
+
+    it("matches orders at lowest quantity between them", function() {
+        matcher.bidOrders = [new Order("sell", 10, 15)];
+
+        matcher.onNewOrder(new Order("buy", 10, 30));
+
+        expect(matcher.trades[0].price).toBe(10);
+        expect(matcher.trades[0].quantity).toBe(15);
+    });
+
 });
