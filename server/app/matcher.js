@@ -1,5 +1,4 @@
 var _ = require("underscore");
-var Order = require("./order/order");
 var Trade = require("./trade/trade");
 
 /**
