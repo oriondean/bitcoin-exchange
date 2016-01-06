@@ -1,15 +1,13 @@
 /**
  * Immutable trade object
  *
- * @param aggressor order which caused the trade to happen
- * @param matched existing order that was matched by new order entering market
+ * @param price trade price
+ * @param quantity trade quantity
  * @constructor
  */
-function Trade(aggressor, matched) {
-    this.buyOrder = aggressor.isBid() ? matched : aggressor;
-    this.sellOrder = aggressor.isBid() ? aggressor : matched;
-
-    this.aggressor = aggressor;
+function Trade(price, quantity) {
+    this.price = price;
+    this.quantity = quantity;
 
     this.created = Date.now();
 
