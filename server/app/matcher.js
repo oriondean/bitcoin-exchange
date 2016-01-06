@@ -1,3 +1,4 @@
+var _ = require("underscore");
 var Order = require("./order/order");
 var Trade = require("./trade/trade");
 
@@ -12,43 +13,57 @@ function Matcher() {
     this.trades = [];
 }
 
-Matcher.prototype.onNewOrder = function(order) {
-    var matched = this.match(order, order.isBid() ? this.askOrders : this.bidOrders);
+/**
+ * Attempts to match new order with existing orders, otherwise adds it to be matched
+ * @param newOrder
+ */
+Matcher.prototype.onNewOrder = function(newOrder) {
+    var order = this.match(newOrder, newOrder.isBid() ? this.askOrders : this.bidOrders);
 
-    //TODO: what if not matched?
+    if(order) {
+        var index;
+
+        if(order.isBid()) {
+            index = _.sortedIndex(this.bidOrders, order, function(order) { return order.price });
+            this.bidOrders.splice(index, 0, order);
+        } else {
+            index = _.sortedIndex(this.askOrders, order, function(order) { return -order.price });
+            this.askOrders.splice(index, 0, order);
+        }
+    }
 };
 
 /**
  * Matches an order with potential candidate orders
  *
- * @param order new order that needs a match
+ * @param toMatch new order that needs a match
  * @param candidates potential orders that can be matched
- * @returns {boolean} If order has been fully matched
+ * @returns {order} null if order has been fully matched, otherwise remaining part of order
  */
-Matcher.prototype.match = function(order, candidates) {
-    var hasQuantityRemaining = true;
+Matcher.prototype.match = function(toMatch, candidates) {
+    var order = toMatch;
 
-    while(hasQuantityRemaining && !!candidates[0] && order.canMatch(candidates[0])) {
-        var toMatch = candidates[0];
+    while(!!candidates[0] && order.canMatch(candidates[0])) {
+        var existingOrder = candidates[0];
 
-        if(order.quantity >= toMatch.quantity) {
-            candidates.splice(0, 1); // fully matched, remove
+        // match at existing order's price, and lowest quantity
+        this.trades.push(new Trade(existingOrder.price, Math.min(existingOrder.quantity, order.quantity)));
 
-            if(order.quantity > toMatch.quantity) {
-                order = order.reduceQuantity(toMatch.quantity);
-            } else {
-                hasQuantityRemaining = false;
+        if(order.quantity >= existingOrder.quantity) {
+            candidates.splice(0, 1); // existing fully matched, remove
+
+            if(order.quantity === existingOrder.quantity) {
+                return null; // new order fully matched
             }
-        } else {
-            // partially matched, reduce quantity
-            candidates[0] = new Order(toMatch.action, toMatch.price, toMatch.quantity - order.quantity);
-            order = new Order(order.action, order.price, 0);
-        }
 
-        this.trades.push(new Trade(order, toMatch));
+            order = order.reduceQuantity(existingOrder.quantity);
+        } else {
+            candidates[0] = existingOrder.reduceQuantity(order.quantity); // existing partially matched
+            return null; // new order fully matched
+        }
     }
 
-    return !!candidates.quantity;
+    return order;
 };
 
 module.exports = Matcher;
