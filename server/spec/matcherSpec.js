@@ -13,7 +13,7 @@ describe("Matcher", function() {
     });
 
     it("matches bid orders with ask orders", function() {
-        var order = new Order("sell", 1, 1);
+        var order = new Order("bid", 1, 1);
 
         matcher.onNewOrder(order);
 
@@ -29,7 +29,7 @@ describe("Matcher", function() {
     });
 
     it("removes any fully matched orders", function() {
-        matcher.bidOrders = [new Order("sell", 15, 20)];
+        matcher.bidOrders = [new Order("bid", 15, 20)];
 
         expect(matcher.bidOrders.length).toBe(1);
 
@@ -39,7 +39,7 @@ describe("Matcher", function() {
     });
 
     it("reduces quantity of any partially matched orders", function() {
-        matcher.bidOrders = [new Order("sell", 25, 20)];
+        matcher.bidOrders = [new Order("bid", 25, 20)];
 
         matcher.onNewOrder(new Order("buy", 25, 10));
 
@@ -47,7 +47,7 @@ describe("Matcher", function() {
     });
 
     it("adds new order if it isn't fully matched", function() {
-        matcher.bidOrders = [new Order("sell", 25, 10)];
+        matcher.bidOrders = [new Order("bid", 25, 10)];
 
         matcher.onNewOrder(new Order("buy", 35, 20));
 
@@ -56,22 +56,22 @@ describe("Matcher", function() {
     });
 
     it("maintains sorting of bid orders by best price when new one is added", function() {
-        matcher.bidOrders = [new Order("sell", 15, 10), new Order("sell", 20, 10), new Order("sell", 25, 10)];
+        matcher.bidOrders = [new Order("bid", 15, 10), new Order("bid", 20, 10), new Order("bid", 25, 10)];
 
-        matcher.onNewOrder(new Order("sell", 30, 10));
+        matcher.onNewOrder(new Order("bid", 30, 10));
         expect(matcher.bidOrders.map(function(order) { return order.price })).toEqual([15, 20, 25, 30]);
 
-        matcher.onNewOrder(new Order("sell", 7, 10));
+        matcher.onNewOrder(new Order("bid", 7, 10));
         expect(matcher.bidOrders.map(function(order) { return order.price })).toEqual([7, 15, 20, 25, 30]);
 
-        matcher.onNewOrder(new Order("sell", 23, 10));
+        matcher.onNewOrder(new Order("bid", 23, 10));
         expect(matcher.bidOrders.map(function(order) { return order.price })).toEqual([7, 15, 20, 23, 25, 30]);
     });
 
     it("maintains sorting of bid orders by time when new one is added", function() {
-        matcher.bidOrders = [new Order("sell", 15, 10), new Order("sell", 15, 15)];
+        matcher.bidOrders = [new Order("bid", 15, 10), new Order("bid", 15, 15)];
 
-        matcher.onNewOrder(new Order("sell", 15, 20));
+        matcher.onNewOrder(new Order("bid", 15, 20));
 
         expect(matcher.bidOrders[2].quantity).toBe(20);
     });
@@ -98,7 +98,7 @@ describe("Matcher", function() {
     });
 
     it("doesn't add new order if it is fully matched", function() {
-        matcher.bidOrders = [new Order("sell", 25, 10)];
+        matcher.bidOrders = [new Order("bid", 25, 10)];
 
         matcher.onNewOrder(new Order("buy", 35, 10));
 
@@ -109,13 +109,13 @@ describe("Matcher", function() {
     it("matches bid order with best available ask order", function() {
         matcher.askOrders = [new Order("buy", 25, 10), new Order("buy", 24, 10)];
 
-        matcher.onNewOrder(new Order("sell", 20, 10));
+        matcher.onNewOrder(new Order("bid", 20, 10));
 
         expect(matcher.askOrders[0].price).toBe(24);
     });
 
     it("matches ask order with best available bid order", function() {
-        matcher.bidOrders = [new Order("sell", 24, 10), new Order("sell", 25, 10)];
+        matcher.bidOrders = [new Order("bid", 24, 10), new Order("bid", 25, 10)];
 
         matcher.onNewOrder(new Order("buy", 30, 10));
 
@@ -123,7 +123,7 @@ describe("Matcher", function() {
     });
 
     it("matches orders at existing orders price", function() {
-        matcher.bidOrders = [new Order("sell", 10, 15)];
+        matcher.bidOrders = [new Order("bid", 10, 15)];
 
         matcher.onNewOrder(new Order("buy", 20, 15));
 
@@ -132,7 +132,7 @@ describe("Matcher", function() {
     });
 
     it("matches orders at lowest quantity between them", function() {
-        matcher.bidOrders = [new Order("sell", 10, 15)];
+        matcher.bidOrders = [new Order("bid", 10, 15)];
 
         matcher.onNewOrder(new Order("buy", 10, 30));
 
