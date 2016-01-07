@@ -29,7 +29,7 @@ function Order(action, price, quantity) {
 }
 
 /**
- * If order is a bid or der
+ * If order is a bid order
  * @returns {boolean} true if order is a bid order, otherwise false
  */
 Order.prototype.isBid = function() { return this.action === OrderAction.BID };
