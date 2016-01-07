@@ -30,8 +30,6 @@ function Order(action, price, quantity) {
 
 Order.prototype.isBid = function() { return this.action === OrderAction.BID };
 
-Order.prototype.isAsk = function() { return this.action === OrderAction.ASK };
-
 /**
  * Returns true if order can be matched with given counterpart
  * @param order
@@ -40,7 +38,15 @@ Order.prototype.isAsk = function() { return this.action === OrderAction.ASK };
 Order.prototype.canMatch = function(order) {
     if(this.isBid() === order.isBid()) return false; // can't match two bid/ask orders
 
-    return order.isBid() ? order.price <= this.price : order.price >= this.price;
+    return this.isBid() ? this.price <= order.price : this.price >= order.price;
+};
+
+Order.prototype.hasWorsePrice = function(order) {
+    if(this.isBid() !== order.isBid()) {
+        throw new Error("Cannot compare prices between orders with different actions")
+    }
+
+    return this.isBid() ? this.price > order.price : this.price < order.price;
 };
 
 /**
