@@ -28,6 +28,10 @@ function Order(action, price, quantity) {
     Object.freeze(this); // immutable
 }
 
+/**
+ * If order is a bid or der
+ * @returns {boolean} true if order is a bid order, otherwise false
+ */
 Order.prototype.isBid = function() { return this.action === OrderAction.BID };
 
 /**
