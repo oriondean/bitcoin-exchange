@@ -55,7 +55,7 @@ describe("Matcher", function() {
         expect(matcher.askOrders[0].price).toBe(35);
     });
 
-    it("maintains sorting of bid orders by best offer when new one is added", function() {
+    it("maintains sorting of bid orders by best price when new one is added", function() {
         matcher.bidOrders = [new Order("sell", 15, 10), new Order("sell", 20, 10), new Order("sell", 25, 10)];
 
         matcher.onNewOrder(new Order("sell", 30, 10));
@@ -68,7 +68,15 @@ describe("Matcher", function() {
         expect(matcher.bidOrders.map(function(order) { return order.price })).toEqual([7, 15, 20, 23, 25, 30]);
     });
 
-    it("maintains sorting of ask orders by best offer when new one is added", function() {
+    it("maintains sorting of bid orders by time when new one is added", function() {
+        matcher.bidOrders = [new Order("sell", 15, 10), new Order("sell", 15, 15)];
+
+        matcher.onNewOrder(new Order("sell", 15, 20));
+
+        expect(matcher.bidOrders[2].quantity).toBe(20);
+    });
+
+    it("maintains sorting of ask orders by best price when new one is added", function() {
         matcher.askOrders = [new Order("buy", 25, 10), new Order("buy", 20, 10), new Order("buy", 15, 10)];
 
         matcher.onNewOrder(new Order("buy", 30, 10));
@@ -79,6 +87,14 @@ describe("Matcher", function() {
 
         matcher.onNewOrder(new Order("buy", 23, 10));
         expect(matcher.askOrders.map(function(order) { return order.price })).toEqual([30, 25, 23, 20, 15, 7]);
+    });
+
+    it("maintains sorting of ask orders by time when new one is added", function() {
+        matcher.askOrders = [new Order("buy", 15, 10), new Order("buy", 15, 15)];
+
+        matcher.onNewOrder(new Order("buy", 15, 20));
+
+        expect(matcher.askOrders[2].quantity).toBe(20);
     });
 
     it("doesn't add new order if it is fully matched", function() {
