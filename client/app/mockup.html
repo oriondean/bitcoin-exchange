@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bitcoin Exchange</title>
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body { margin-top: 50px; }
+        .main > div { height: 260px; background-color: #efefef; margin-top: 10px; text-align: center; }
+        .orderBook { height: 400px; background-color: #efefef; text-align: center; }
+        .tradeHistory { height: 800px; background-color: #efefef; text-align: center; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Bitcoin Exchange</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="orderBook bidOrderBook">
+                    <h3>Bid Order Book</h3>
+                </div>
+                <div class="orderBook askOrderBook">
+                    <h3>Ask Order Book</h3>
+                </div>
+            </div>
+            <div class="col-lg-6 main">
+                <div class="orderEntry">
+                    <h3>Order Entry</h3>
+                </div>
+                <div class="tradeHistoryChart">
+                    <h3>Trades over time chart</h3>
+                </div>
+                <div class="orderDepth">
+                    <h3>Order depth chart</h3>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="tradeHistory">
+                    <h3>Trade History</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
