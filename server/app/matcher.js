@@ -20,15 +20,14 @@ Matcher.prototype.onNewOrder = function(newOrder) {
     var order = this.match(newOrder, newOrder.isBid() ? this.askOrders : this.bidOrders);
 
     if(order) {
-        var index;
+        var index = 0;
+        var orders = order.isBid() ? this.bidOrders : this.askOrders;
 
-        if(order.isBid()) {
-            index = _.sortedIndex(this.bidOrders, order, function(order) { return order.price });
-            this.bidOrders.splice(index, 0, order);
-        } else {
-            index = _.sortedIndex(this.askOrders, order, function(order) { return -order.price });
-            this.askOrders.splice(index, 0, order);
+        while(orders[index] && !orders[index].hasWorsePrice(order)) {
+            index++;
         }
+
+        orders.splice(index, 0, order);
     }
 };
 
