@@ -21,7 +21,7 @@ describe("Matcher", function() {
     });
 
     it("matches ask orders with bid orders", function() {
-        var order = new Order("buy", 1, 1);
+        var order = new Order("ask", 1, 1);
 
         matcher.onNewOrder(order);
 
@@ -33,7 +33,7 @@ describe("Matcher", function() {
 
         expect(matcher.bidOrders.length).toBe(1);
 
-        matcher.onNewOrder(new Order("buy", 15, 20));
+        matcher.onNewOrder(new Order("ask", 15, 20));
 
         expect(matcher.bidOrders.length).toBe(0);
     });
@@ -41,7 +41,7 @@ describe("Matcher", function() {
     it("reduces quantity of any partially matched orders", function() {
         matcher.bidOrders = [new Order("bid", 25, 20)];
 
-        matcher.onNewOrder(new Order("buy", 25, 10));
+        matcher.onNewOrder(new Order("ask", 25, 10));
 
         expect(matcher.bidOrders[0].quantity).toBe(10);
     });
@@ -49,7 +49,7 @@ describe("Matcher", function() {
     it("adds new order if it isn't fully matched", function() {
         matcher.bidOrders = [new Order("bid", 25, 10)];
 
-        matcher.onNewOrder(new Order("buy", 35, 20));
+        matcher.onNewOrder(new Order("ask", 35, 20));
 
         expect(matcher.askOrders[0].quantity).toBe(10);
         expect(matcher.askOrders[0].price).toBe(35);
@@ -77,22 +77,22 @@ describe("Matcher", function() {
     });
 
     it("maintains sorting of ask orders by best price when new one is added", function() {
-        matcher.askOrders = [new Order("buy", 25, 10), new Order("buy", 20, 10), new Order("buy", 15, 10)];
+        matcher.askOrders = [new Order("ask", 25, 10), new Order("ask", 20, 10), new Order("ask", 15, 10)];
 
-        matcher.onNewOrder(new Order("buy", 30, 10));
+        matcher.onNewOrder(new Order("ask", 30, 10));
         expect(matcher.askOrders.map(function(order) { return order.price })).toEqual([30, 25, 20, 15]);
 
-        matcher.onNewOrder(new Order("buy", 7, 10));
+        matcher.onNewOrder(new Order("ask", 7, 10));
         expect(matcher.askOrders.map(function(order) { return order.price })).toEqual([30, 25, 20, 15, 7]);
 
-        matcher.onNewOrder(new Order("buy", 23, 10));
+        matcher.onNewOrder(new Order("ask", 23, 10));
         expect(matcher.askOrders.map(function(order) { return order.price })).toEqual([30, 25, 23, 20, 15, 7]);
     });
 
     it("maintains sorting of ask orders by time when new one is added", function() {
-        matcher.askOrders = [new Order("buy", 15, 10), new Order("buy", 15, 15)];
+        matcher.askOrders = [new Order("ask", 15, 10), new Order("ask", 15, 15)];
 
-        matcher.onNewOrder(new Order("buy", 15, 20));
+        matcher.onNewOrder(new Order("ask", 15, 20));
 
         expect(matcher.askOrders[2].quantity).toBe(20);
     });
@@ -100,14 +100,14 @@ describe("Matcher", function() {
     it("doesn't add new order if it is fully matched", function() {
         matcher.bidOrders = [new Order("bid", 25, 10)];
 
-        matcher.onNewOrder(new Order("buy", 35, 10));
+        matcher.onNewOrder(new Order("ask", 35, 10));
 
         expect(matcher.askOrders.length).toBe(0);
         expect(matcher.bidOrders.length).toBe(0);
     });
 
     it("matches bid order with best available ask order", function() {
-        matcher.askOrders = [new Order("buy", 25, 10), new Order("buy", 24, 10)];
+        matcher.askOrders = [new Order("ask", 25, 10), new Order("ask", 24, 10)];
 
         matcher.onNewOrder(new Order("bid", 20, 10));
 
@@ -117,7 +117,7 @@ describe("Matcher", function() {
     it("matches ask order with best available bid order", function() {
         matcher.bidOrders = [new Order("bid", 24, 10), new Order("bid", 25, 10)];
 
-        matcher.onNewOrder(new Order("buy", 30, 10));
+        matcher.onNewOrder(new Order("ask", 30, 10));
 
         expect(matcher.bidOrders[0].price).toBe(25);
     });
@@ -125,7 +125,7 @@ describe("Matcher", function() {
     it("matches orders at existing orders price", function() {
         matcher.bidOrders = [new Order("bid", 10, 15)];
 
-        matcher.onNewOrder(new Order("buy", 20, 15));
+        matcher.onNewOrder(new Order("ask", 20, 15));
 
         expect(matcher.trades[0].price).toBe(10);
         expect(matcher.trades[0].quantity).toBe(15);
@@ -134,7 +134,7 @@ describe("Matcher", function() {
     it("matches orders at lowest quantity between them", function() {
         matcher.bidOrders = [new Order("bid", 10, 15)];
 
-        matcher.onNewOrder(new Order("buy", 10, 30));
+        matcher.onNewOrder(new Order("ask", 10, 30));
 
         expect(matcher.trades[0].price).toBe(10);
         expect(matcher.trades[0].quantity).toBe(15);

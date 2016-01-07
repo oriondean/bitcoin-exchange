@@ -10,7 +10,7 @@ describe("Order", function() {
 
         it("isn't thrown for buy action", function() {
             expect(function() {
-                new Order("buy", 1, 1);
+                new Order("ask", 1, 1);
             }).not.toThrowError("Invalid order action");
         });
 
@@ -87,29 +87,29 @@ describe("Order", function() {
 
     describe("can match", function() {
         it("returns false for orders with the same action", function() {
-            var order = new Order("buy", 1, 1);
-            expect(order.canMatch(new Order("buy", 1, 1))).toBe(false);
+            var order = new Order("ask", 1, 1);
+            expect(order.canMatch(new Order("ask", 1, 1))).toBe(false);
 
             order = new Order("bid", 1, 1);
             expect(order.canMatch(new Order("bid", 1, 1))).toBe(false);
         });
 
         it("returns true if order prices are equal", function() {
-            var order = new Order("buy", 1, 1);
+            var order = new Order("ask", 1, 1);
             expect(order.canMatch(new Order("bid", 1, 1))).toBe(true);
 
             order = new Order("bid", 1, 1);
-            expect(order.canMatch(new Order("buy", 1, 1))).toBe(true);
+            expect(order.canMatch(new Order("ask", 1, 1))).toBe(true);
         });
 
         it("returns false if buy order price is lower than sell order price", function() {
-            var order = new Order("buy", 1, 1);
+            var order = new Order("ask", 1, 1);
             expect(order.canMatch(new Order("bid", 2, 1))).toBe(false);
         });
 
         it("returns false if sell order price is higher than buy order price", function() {
             var order = new Order("bid", 2, 1);
-            expect(order.canMatch(new Order("buy", 1, 1))).toBe(false);
+            expect(order.canMatch(new Order("ask", 1, 1))).toBe(false);
         });
     });
 });
