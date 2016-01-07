@@ -41,6 +41,11 @@ Order.prototype.canMatch = function(order) {
     return this.isBid() ? this.price <= order.price : this.price >= order.price;
 };
 
+/**
+ * Returns true if the order has a worse price than given counterpart
+ * @param order
+ * @returns {boolean} true if worse price
+ */
 Order.prototype.hasWorsePrice = function(order) {
     if(this.isBid() !== order.isBid()) {
         throw new Error("Cannot compare prices between orders with different actions")
