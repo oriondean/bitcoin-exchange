@@ -5,16 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bitcoin Exchange</title>
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <style>
-        body { margin-top: 50px; }
-        .main > div { height: 260px; background-color: #efefef; margin-top: 10px; text-align: center; }
-        .orderBook { height: 400px; background-color: #efefef; text-align: center; }
-        .tradeHistory { height: 800px; background-color: #efefef; text-align: center; }
+        body { margin-top: 50px; background-color: #ECEFF1; }
+        .navbar { background-color: #263238; }
+        .navbar-brand { color: #ECEFF1; }
+        .main > div { height: 260px; margin-top: 10px;}
+        .header { background-color: #37474F; padding: 10px 20px; margin: 0; color: #ECEFF1; }
+
+        .orderBookContainer { border: 1px solid #37474F; margin-top: 20px; background-color: white; }
+        .bidOrderBook {  margin-bottom: 20px; }
+        .price, .owner, .aggressor { width: 20%; }
+        .quantity { width: 25%; }
+        .time { width: 35%; }
+
+        .orderBook, .tradeHistory { font-size: 0; overflow: hidden; padding-bottom: 5px; }
+        .bookHeader span, .historyHeader span { font-weight: bold; }
+        .bookHeader span, .historyHeader span, .order span, .trade span { margin-bottom: 5px; display: inline-block; font-size: 13px; padding: 2px 10px; }
+
+        .tradeHistoryContainer { margin-top: 20px; border: 1px solid #37474F; background-color: white; }
+        .tradeHistory .trade { margin-bottom: 5px; }
+
+        .right { text-align: right; }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Bitcoin Exchange</a>
@@ -24,11 +40,44 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3">
-                <div class="orderBook bidOrderBook">
-                    <h3>Bid Order Book</h3>
-                </div>
-                <div class="orderBook askOrderBook">
-                    <h3>Ask Order Book</h3>
+                <div class="orderBookContainer">
+                    <h4 class="header">Order Book</h4>
+                    <div class="bookHeader">
+                        <span class="right price">Price</span><span class="quantity">Quantity</span><span class="owner">Owner</span><span class="time">Time</span>
+                    </div>
+                    <div class="orderBook bidOrderBook">
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">485.12</span><span class="quantity">1.23212312514</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                    </div>
+                    <div class="orderBook askOrderBook">
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                        <div class="order"><span class="price right">480.94</span><span class="quantity">0.91959020042</span><span class="owner">Dean Kerr</span><span class="time">12 minutes ago</span></div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6 main">
@@ -43,8 +92,38 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="tradeHistory">
-                    <h3>Trade History</h3>
+                <div class="tradeHistoryContainer">
+                    <h4 class="header">Trade History</h4>
+                    <div class="historyHeader">
+                        <span class="price right">Price</span><span class="quantity">Quantity</span><span class="aggressor">Aggressor</span><span class="time">Time</span>
+                    </div>
+                    <div class="tradeHistory">
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                        <div class="trade"><span class="price right">467.93</span><span class="quantity">0.5919684923</span><span class="aggressor">Bid</span><span class="time">2 days, 3 hours ago</span></div>
+                    </div>
                 </div>
             </div>
         </div>
