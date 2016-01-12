@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="bitcoinExchange">
 <head>
     <meta charset="UTF-8">
     <title>Bitcoin Exchange</title>
@@ -15,9 +15,11 @@
         </div>
     </nav>
     <div class="container-fluid">
-        
+        <order-book></order-book>
     </div>
     <script src="../node_modules/angular/angular.js"></script>
     <script src="../node_modules/angular-websocket/angular-websocket.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/order-book/directive.js"></script>
 </body>
 </html>
