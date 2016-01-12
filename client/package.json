@@ -18,7 +18,11 @@
   "devDependencies": {
     "angular": "^1.4.8",
     "angular-websocket": "^1.0.14",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "http-server": "^0.8.5"
+  },
+  "scripts": {
+    "start": "http-server -a localhost -p 8080 -c-1"
   },
   "private": true,
   "license": "MIT"
